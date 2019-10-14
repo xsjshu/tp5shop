@@ -6,11 +6,10 @@
  * Time: 21:00
  */
 namespace app\admin\controller;
-use think\Controller;
 use think\Db;
 use think\facade\Request;
 
-class Brand extends Controller
+class Brand extends Common
 {
     public function add_brand()
     {
@@ -23,6 +22,8 @@ class Brand extends Controller
             $data["brand_url"] = request()->post("brand_url", "");
             $data["brand_des"]=request()->post("brand_des","");
             $data["brand_order"] = request()->post("brand_order", "");
+            //上传图片至七牛云
+
             //处理上传图片
             $file = Request::file('brand_logo');
             $info=$file->validate(['size'=>2048000,'ext'=>'gif,png,jpg'])->move("uploads/brand");
@@ -32,7 +33,7 @@ class Brand extends Controller
             //入库
             $brand=Db::name("brand")->insert($data);
             if($brand){
-                $this->success("添加成功","Brand/add_brand");
+                $this->success("添加成功","Brand/show_brand");
             }else{
                 $this->error("添加失败");
             }
@@ -45,7 +46,7 @@ class Brand extends Controller
     public function brandDel(){
         $brand_id=request::get("brand_id","");
         $brandDelete=Db::name("brand")->delete($brand_id);
-        if($cateDelete){
+        if($brandDelete){
             echo $brandDelete(["status"=>1,"msg"=>"删除分类成功"]);
         }else{
             echo json_encode(["status"=>0,"msg"=>"删除分类失败"]);

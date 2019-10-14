@@ -7,10 +7,9 @@
  */
 namespace app\admin\controller;
 use app\admin\model\CateAll;
-use think\Controller;
 use think\Db;
 use think\facade\Request;
-class Goods extends Controller{
+class Goods extends Common{
     public function goods(){
         $cate=new CateAll();
         $cates=$cate->getCateAll();

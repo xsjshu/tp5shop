@@ -115,5 +115,10 @@ return [
     'show_error_msg'         => false,
     // 异常处理handle类 留空使用 \think\exception\Handle
     'exception_handle'       => '',
+    'qiniu' => [
+        'accesskey' => '4WKn6mvHMgv7jrQFcYom9uL2JI_LW0d83TSGxNJ7',//你自己的七牛云accesskey
+        'secretkey' => 'gXsLrjyo55e3LhpJDo4JLNattrovX9ciCzdeH5Ho',//你自己的七牛云secretkey
+        'bucket' => 'bucket',
+    ]
 
 ];

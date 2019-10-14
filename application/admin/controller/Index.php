@@ -7,20 +7,13 @@
  */
 namespace app\admin\controller;
 use app\admin\model\Cate;
-use think\Controller;
 use think\Db;
-use think\facade\Cookie;
-use think\facade\Session;
 use think\Model;
 
-class Index extends Controller
+class Index extends Common
 {
     public function index(){
-        $cookie=Cookie::get("admin");
-        $session=Session::get("admin");
-        if($cookie&&!$session) {
-            Session::set("admin",$cookie);
-        }
+
         return view();
     }
 }

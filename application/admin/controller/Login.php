@@ -7,13 +7,11 @@
  */
 namespace app\admin\controller;
 use think\captcha\Captcha;
-use think\Controller;
-use think\Cookie;
 use think\Db;
 use think\facade\Request;
 use think\facade\Session;
 
-class Login extends Controller{
+class Login extends Common{
     public function login()
     {
         if(request()->isGet()){
@@ -29,12 +27,17 @@ class Login extends Controller{
             //接值
             $admin_name=request::post("admin_user","");
             $admin_pwd=request::post("admin_pwd","");
+
             $save=request::post("save","");
             $admin=Db::name("admin")
                 ->where("admin_user",$admin_name)
                 ->where("admin_pwd",$admin_pwd)
                 ->find();
             if($admin){
+                $time=time();
+                Db::name('admin')
+                    ->where('admin_user', $admin_name)
+                    ->update(['admin_login_time' =>$time]);
                 if($save==1){
                     cookie('admin',$admin,3600*7);
                 }

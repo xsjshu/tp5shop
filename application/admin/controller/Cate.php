@@ -7,11 +7,10 @@
  */
 namespace app\admin\controller;
 use app\admin\model\CateAll;
-use think\Controller;
 use think\Db;
 use think\Model;
 use think\facade\Request;
-class Cate extends Controller{
+class Cate extends Common{
     public function product_category(){
         $cate=new CateAll();
         $cates=$cate->getCateAll();
