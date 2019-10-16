@@ -35,7 +35,7 @@ class AdminService extends Model
        //去用户Session里面的信息
         $admin_user=Session::get("admin")["admin_user"];
         if(in_array($admin_user,config("web.super_admin"))){
-            
+
         }
     }
 
