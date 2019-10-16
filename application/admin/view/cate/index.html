@@ -25,7 +25,7 @@
 <!-- 当前位置 -->
 <div id="dcMain">
     <div id="urHere">DouPHP 管理中心<b>></b><strong>商品分类</strong> </div>   <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-            <h3><a href="add_product_category.html" class="actionBtn add">添加分类</a>商品分类</h3>
+            <h3><a href="{:url('Cate/add')}" class="actionBtn add">添加分类</a>商品分类</h3>
         <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
               <tr>
                 <th width="120" align="left">分类名称</th>
@@ -36,12 +36,12 @@
              </tr>
                 {volist name="cates" id="vo"}
              <tr>
-                <td align="left"> <a href="goods.html?cat_id=1">{$vo.cate_name}</a></td>
+                <td align="left"> <a href="">{$vo.cate_name}</a></td>
                 <td>{$vo.cate_an_name}</td>
                 <td>{$vo.cate_content}</td>
                 <td align="center">{$vo.cate_order}</td>
                 <td align="center">
-                    <a href="product_category.php?rec=edit&cat_id=1">编辑</a> |
+                    <a href="">编辑</a> |
                     <a href="javascript:void(0);" name="cate_id" id={$vo.cate_id} class="cate_del">删除</a>
                 </td>
              </tr>

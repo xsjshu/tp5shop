@@ -6,12 +6,14 @@
  * Time: 14:01
  */
 namespace app\admin\controller;
+use app\admin\model\Admin;
 use think\captcha\Captcha;
+use think\Controller;
 use think\Db;
 use think\facade\Request;
 use think\facade\Session;
 
-class Login extends Common{
+class Login extends Controller{
     public function login()
     {
         if(request()->isGet()){
@@ -25,26 +27,23 @@ class Login extends Common{
 //                $this->error("验证码错误");
 //            }
             //接值
-            $admin_name=request::post("admin_user","");
-            $admin_pwd=request::post("admin_pwd","");
-
-            $save=request::post("save","");
-            $admin=Db::name("admin")
-                ->where("admin_user",$admin_name)
-                ->where("admin_pwd",$admin_pwd)
-                ->find();
-            if($admin){
-                $time=time();
-                Db::name('admin')
-                    ->where('admin_user', $admin_name)
-                    ->update(['admin_login_time' =>$time]);
-                if($save==1){
-                    cookie('admin',$admin,3600*7);
+            $admin_user = request::post("admin_user", "");
+            $admin_pwd = request::post("admin_pwd", "");
+            $save = request::post("save", "");
+            $admin = new Admin();
+            $admin = $admin->getAdminId($admin_user);
+            if ($admin_pwd = md5(md5($admin_pwd) . $admin['pwd_sult'])) {
+                $time = time();
+                $admin->admin_login_time=$time;
+                $admin->save();
+                if ($save == 1) {
+                    cookie('admin', $admin, 3600 * 7);
                 }
-                Session::set("admin",$admin);
-                $this->success("登陆成功","index/index");
+                Session::set("admin", $admin);
+
+                $this->success("登陆成功", "index/index");
                 Session::clear('admin');
-            }else{
+            } else {
                 $this->error("登陆失败");
             }
         }

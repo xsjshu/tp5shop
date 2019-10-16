@@ -6,7 +6,6 @@
  * Time: 15:04
  */
 namespace app\admin\controller;
-use app\admin\model\Cate;
 use think\Db;
 use think\Model;
 

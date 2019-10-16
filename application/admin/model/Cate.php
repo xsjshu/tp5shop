@@ -8,10 +8,12 @@
 namespace app\admin\model;
 use think\Db;
 use think\Model;
-class CateAll extends Model
+class Cate extends Model
 {
+    protected $pk="cate_id";
     public function getCateAll(){
-        $cates=Db::name("cate")->select();
+        $cates=Cate::all();
+        //$cates=Db::name("cate")->select();
         return $this->getCateByRecursion($cates);
     }
     public function getCateByRecursion($cate,$pid=0,$level=0){

@@ -1,0 +1,106 @@
+{extend name="public:base" /}
+{block name="title"}<title>角色添加</title>{/block}
+{block name="jq"}<script>
+    $(function(){
+        var validate={
+            checkUser:false,
+            checkDesc:false,
+            checkEmail:false
+        };
+        //验证账号
+        $("input[name='role_name']").blur(function(){
+            var role_name=$(this).val().trim();
+            var obj=$(this);
+            if(role_name==""){
+                $(this).next().html("角色名称不能为空");
+                validate.checkUser=false;
+                return false;
+            }
+            $.ajax({
+                type:"get",
+                url:"{:url('Role/check_role_name')}",
+                data:{
+                    role_name:role_name
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.status==1){
+                        obj.next().html("角色已添加");
+                        validate.checkUser=false;
+                    }
+                    if(data.status==0){
+                        obj.next().html("ok");
+                        validate.checkUser=true;
+                    }
+                },
+                error:function(){
+                    obj.next().html("网络异常");
+                    validate.checkUser=false;
+                }
+            });
+        });
+        $("input[name='role_desc']").blur(function() {
+            var role_desc = $(this).val().trim();
+            var obj = $(this);
+            if (role_desc == "") {
+                $(this).next().html("角色描述不能为空");
+                validate.checkDesc = false;
+                return false;
+            }
+        });
+    })
+</script>{/block}
+<!-- 当前位置 -->
+{block name="content"}
+<div id="dcMain">
+    <div id="urHere">DouPHP 管理中心<b>></b><strong>网站角色</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+    <h3><a href="{:url('Role/role')}" class="actionBtn">返回列表</a>网站角色</h3>
+    <form action="" method="post" name="add_role">
+        <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+            <tr>
+                <td width="100" align="right">角色名称</td>
+                <td>
+                    <input type="text" name="role_name" size="40" class="inpMain" /><span></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="100" align="right">角色描述</td>
+                <td>
+                    <input type="text" name="role_desc" size="40" class="inpMain" /><span></span>
+                </td>
+            </tr>
+            <tr>
+                <td width="100" align="right">权限</td>
+                <td>
+                    <table>
+                        {volist name="nodes" id="vo"}
+                        {if $vo.node_pid == 0}
+                        <tr node_id="{$vo.node_id}">
+                            <th>
+                                <input type="checkbox" name="node_id[]" value="{$vo.node_id}">{$vo.node_name}
+                            </th>
+                            <td>
+                                {volist name="nodes" id="vos"}
+                                {if $vos.node_pid==$vo.node_id}
+                                <input type="checkbox" name="node_id[]" value="{$vos.node_id}">{$vos.node_name}
+                                {/if}
+                                {/volist}
+                            </td>
+                        </tr>
+                        {/if}
+                        {/volist}
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="hidden" name="token" value="5a58b748" />
+                    <input type="submit" name="submit" class="btn" value="提交" />
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</div>
+{/block}

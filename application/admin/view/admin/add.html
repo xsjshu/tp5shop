@@ -1,0 +1,110 @@
+{extend name="public:base" /}
+{block name="title"}<title>商品添加</title>{/block}
+{block name="jq"}<script>
+    $(function(){
+          var validate={
+           checkUser:false,
+           checkPwd:false,
+           checkEmail:false
+          };
+          //验证账号
+          $("input[name='admin_user']").blur(function(){
+              var admin_user=$(this).val().trim();
+              var obj=$(this);
+              if(admin_user==""){
+               $(this).next().html("用户账号不能为空");
+               validate.checkUser=false;
+               return false;
+              }
+              $.ajax({
+                  type:"get",
+                  url:"{:url('Admin/check_admin_name')}",
+                  data:{
+                   admin_user:admin_user
+                  },
+                  dataType:"json",
+                  success:function(data){
+                   if(data.status==1){
+                    obj.next().html("用户账号已添加");
+                    validate.checkUser=false;
+                   }
+                   if(data.status==0){
+                    obj.next().html("ok");
+                    validate.checkUser=true;
+                   }
+                  },
+                  error:function(){
+                   obj.next().html("网络异常");
+                   validate.checkUser=false;
+                  }
+              });
+          });
+         $("input[name='admin_pwd']").blur(function() {
+             var admin_pwd = $(this).val().trim();
+             var obj = $(this);
+             if (admin_pwd == "") {
+                 $(this).next().html("用户密码不能为空");
+                 validate.checkPwd = false;
+                 return false;
+             }
+         });
+         $("input[name='admin_email']").blur(function() {
+            var admin_email = $(this).val().trim();
+            var obj = $(this);
+            if (admin_email == "") {
+                $(this).next().html("用户邮箱不能为空");
+                validate.checkEmail = false;
+                return false;
+            }
+         });
+    })
+</script>{/block}
+<!-- 当前位置 -->
+{block name="content"}
+ <div id="dcMain">
+<div id="urHere">DouPHP 管理中心<b>></b><strong>网站管理员</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+    <h3><a href="{:url('Admin/index')}" class="actionBtn">返回列表</a>网站管理员</h3>
+         <form action="" method="post" name="add_admin">
+     <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+      <tr>
+       <td width="100" align="right">管理员名称</td>
+       <td>
+        <input type="text" name="admin_user" size="40" class="inpMain" />
+        <span></span>
+       </td>
+      </tr>
+      <tr>
+       <td width="100" align="right">E-mail地址</td>
+       <td>
+        <input type="text" name="admin_email" size="40" class="inpMain" /><span></span>
+       </td>
+      </tr>
+      <tr>
+       <td align="right">密码</td>
+       <td>
+        <input type="password" name="admin_pwd" size="40" class="inpMain" /><span></span>
+       </td>
+      </tr>
+      <tr>
+       <td align="right">管理员角色</td>
+       <td>
+        <select name="role_id" id="">
+         <option value="0">角色选择</option>
+         {volist name="roles" id="vo"}
+         <option value={$vo.role_id}>{$vo.role_name}</option>
+         {/volist}
+        </select>
+       </td>
+      </tr>
+      <tr>
+       <td></td>
+       <td>
+        <input type="hidden" name="token" value="5a58b748" />
+        <input type="submit" name="submit" class="btn" value="提交" />
+       </td>
+      </tr>
+     </table>
+    </form>
+   </div>
+ </div>
+{/block}

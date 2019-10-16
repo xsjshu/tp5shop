@@ -11,15 +11,15 @@ use think\Db;
 use think\Model;
 use think\facade\Request;
 class Cate extends Common{
-    public function product_category(){
-        $cate=new CateAll();
-        $cates=$cate->getCateAll();
+    public function index(){
+        $cates=new \app\admin\model\Cate();
+        $cates=$cates->all();
         return view("",["cates"=>$cates]);
     }
-    public function add_product_category(){
+    public function add(){
         if(request()->isGet()){
             //调用模型层方法取得所有的分类
-            $cate=new CateAll();
+            $cate=new \app\admin\model\Cate();
             $cates=$cate->getCateAll();
             return view("",["cates"=>$cates]);
         }
@@ -33,9 +33,10 @@ class Cate extends Common{
             $data["cate_content"]=request::post("cate_content","");
             $data["cate_add_time"]=time();
             //入库
-            $addCate=Db::name('cate')->insert($data);
+            $cates=new \app\admin\model\Cate();
+            $addCate=$cates->save($data);
             if($addCate){
-                $this->success("添加成功", "Cate/product_category");
+                $this->success("添加成功", "Cate/index");
             }else{
                 $this->error("添加失败");
             }
@@ -43,7 +44,9 @@ class Cate extends Common{
     }
     public function cateDelete(){
         $cate_id=request::get("cate_id","");
-        $cateDelete=Db::name("cate")->delete($cate_id);
+        $cateDelete=new \app\admin\model\Cate();
+        $cateDelete=$cateDelete->delete($cate_id);
+        //$cateDelete=Db::name("cate")->delete($cate_id);
         if($cateDelete){
             echo json_encode(["status"=>1,"msg"=>"删除分类成功"]);
         }else{

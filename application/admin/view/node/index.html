@@ -4,18 +4,24 @@
 {block name="content"}
 <div id="dcMain">
     <div id="urHere">DouPHP 管理中心<b>></b><strong>权限管理</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-    <h3><a href="{:url('Admin/add_node')}" class="actionBtn">添加权限</a>网站权限</h3>
+    <h3><a href="{:url('Node/add')}" class="actionBtn">添加权限</a>网站权限</h3>
     <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
         <tr>
             <th width="30" align="center">编号</th>
             <th align="left">权限名称</th>
+            <th align="left">权限控制器</th>
+            <th align="left">权限方法</th>
+            <th align="left">权限url</th>
             <th align="center">操作</th>
         </tr>
         {volist name="nodes" id="vo"}
         <tr>
             <td align="center">{$vo.node_id}</td>
             <td> {$vo.level|str_repeat="--",###}{$vo.node_name}</td>
-            <td align="center"><a href="add_manager.html?rec=edit&id=1">编辑</a> | <a href="admin.html?rec=del&id=1">删除</a></td>
+            <td align="left">{$vo.node_controller}</td>
+            <td align="left">{$vo.node_action}</td>
+            <td align="left">{$vo.node_url}</td>
+            <td align="center"><a href="{:url('Node/update')}">编辑</a> | <a href="{:url('Node/delete')}">删除</a></td>
         </tr>
         {/volist}
     </table>
