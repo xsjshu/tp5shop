@@ -37,7 +37,7 @@ class Cate extends Common{
             if($addCate){
                 $this->success("添加成功", "Cate/product_category");
             }else{
-                $this->error("添加失败");
+//                $this->error("添加失败");
             }
         }
     }
